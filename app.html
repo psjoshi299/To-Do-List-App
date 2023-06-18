@@ -1,0 +1,63 @@
+<!doctype html>
+<html ng-app="myApp">
+<head>
+    <title>To-Do List App</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+</head>
+<body bgcolor="Orange">
+<center>
+<body ng-controller="myCtrl">
+    <h1>To-Do List App</h1>
+
+    <!-- Form to add new to-do item -->
+    <form ng-submit="addItem()">
+        <input type="text" ng-model="newItem" placeholder="Add new item">
+        <button type="submit">Add</button>
+    </form>
+
+    <!-- Display list of to-do items -->
+    <ul style="list-style-type: none;">
+        <li ng-repeat="item in items">
+            {{item}}
+            <button ng-click="deleteItem(item)">Delete</button>
+            <button ng-click="editItem(item)">Edit</button>
+        </li>
+    </ul>
+
+<script>
+var app = angular.module("myApp", []);
+
+app.controller("myCtrl", function($scope) {
+    $scope.items = []; // Array to store to-do items
+    $scope.newItem = ""; // Variable to store new to-do item
+
+    // Function to add new to-do item
+    $scope.addItem = function() {
+        if ($scope.newItem !== "") {
+            $scope.items.push($scope.newItem);
+            $scope.newItem = "";
+        }
+    };
+
+    // Function to delete to-do item
+    $scope.deleteItem = function(item) {
+        var index = $scope.items.indexOf(item);
+        if (index !== -1) {
+            $scope.items.splice(index, 1);
+        }
+    };
+
+    // Function to edit to-do item
+    $scope.editItem = function(item) {
+        var index = $scope.items.indexOf(item);
+        if (index !== -1) {
+            var editedItem = prompt("Edit item:", item);
+            if (editedItem !== null) {
+                $scope.items[index] = editedItem;
+            }
+        }
+    };
+});
+</script>
+</body>
+</html>
